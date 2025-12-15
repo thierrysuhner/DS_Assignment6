@@ -3,11 +3,12 @@ Assignment 6 Solution
 
 # Team Members
 
-...
+* Karla Ruggaber
+* Thierry Suhner
 
 # GitHub link to your (forked) repository
 
-...
+https://github.com/thierrysuhner/DS_Assignment6
 
 # Task 1
 
@@ -32,7 +33,22 @@ Ans:
 
 Ans:
 
+[
+{"name":"\"Karla Ruggaber\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/kruggaber/profile/card#me"},
+{"name":"\"Elia Besmer\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/Elia/profile/card#me"},
+{"name":"\"Leon Schwendener\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/ls/profile/card#me"},
+{"name":"\"Jérémy Lemée\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/jlemee/profile/card#me"},
+{"name":"\"Thierry Suhner\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me"},
+{"name":"\"Colin Berendt\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/ColinsPod/profile/card#me"},
+{"name":"\"Jeremy Lemee\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/jeremy/profile/card#me"},
+{"name":"\"Jeremy Lemee's First Alter Ego\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/jeremy2/profile/card#me"},
+{"name":"\"Jeremy Lemee's Second Alter Ego\"","person":"https://wiser-solid-xi.interactions.ics.unisg.ch/jeremy3/profile/card#me"}
+]
 
+[
+]
+
+Only find first link (-> the profile).
 
 
 # Task 4

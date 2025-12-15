@@ -59,7 +59,7 @@ npm install -g @comunica/query-sparql
 
 You can perform the request with:
 ```bash
-comunica-sparql {pod_url} -f query_group.rq
+comunica-sparql https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me -f query_group.rq
 ```
 
 
@@ -73,11 +73,11 @@ npm install -g @comunica/query-sparql-link-traversal
 
 You can perform the request using link traversal with:
 ```bash
-comunica-sparql-link-traversal {pod_url} -f query_friends.rq -l debug
+comunica-sparql-link-traversal https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me -f query_friends.rq -l debug
 ```
 and without link traversal with:
 ```bash
-comunica-sparql-link {pod_url} -f query_friends.rq -l debug
+comunica-sparql https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me -f query_friends.rq -l debug
 ```
 
 

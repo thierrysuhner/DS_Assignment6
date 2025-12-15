@@ -1,0 +1,7 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?group
+WHERE {
+  ?group foaf:member
+    <https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me> .
+}

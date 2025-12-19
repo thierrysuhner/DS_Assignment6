@@ -5,12 +5,16 @@
 
 ```bash
 Task 3 #A node project to implement a HTTP server for Task 3
-└── app.js # The server code (TODO: complete)
+└── app.js # The server code (completed)
 └── index.html #The Web page
 └── package.json #A JSON file used by Node to provide information about the project and how to run it.
-query_group.rq #A SPARQL query used in Task 2. TODO: complete
-query_friends.rq #A SPARQL query used in Task 2. TODO: complete
-Report.md #The Report (TODO: complete)
+profiles #Folder containing the Turtle profiles
+└── group_profile.ttl # Our Turtle group profile
+└── kruggaber_profile.ttl # Turtle profile of Karla 
+└── tsuhner_prfile.ttl # Turtle profile of Thierry
+query_group.rq #A SPARQL query used in Task 2. completed
+query_friends.rq #A SPARQL query used in Task 2. completed
+Report.md #The Report (completed)
 README.md #This README.
 ```
 

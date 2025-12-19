@@ -1,0 +1,1 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . <https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/bcs-ds-2025-group-11> rdf:type foaf:Group ; foaf:member <https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me> , <https://wiser-solid-xi.interactions.ics.unisg.ch/kruggaber/profile/card#me> .

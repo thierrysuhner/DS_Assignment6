@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require('cors'); 
+const cors = require('cors');
 const app = express();
 const http = require('http');
 const path = require('path');
@@ -11,7 +11,7 @@ const QueryEngine = require('@comunica/query-sparql').QueryEngine;
 
 const engine = new QueryEngine();
 
-const port = 5000;
+const port = 5001;
 
 app.use(cors())
 
@@ -22,61 +22,70 @@ app.use(express.static('public'))
 
 
 app.get('/', (req, res) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.sendFile(path.join(__dirname, 'index.html'));
-  });
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/html");
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-  app.get('/movies', (req, res) => {
-      let input_url = req.query.url
-      console.log("input url: ", input_url)
-      res.statusCode = 200
-      res.setHeader("Content-Type", "text/html");
-      res.sendFile(path.join(__dirname, 'index.html'));
-      if (!input_url) {
-        return;
-      }
-      setTimeout(() => {
+app.get('/movies', (req, res) => {
+  let input_url = req.query.url
+  console.log("input url: ", input_url)
+  res.statusCode = 200
+  res.setHeader("Content-Type", "text/html");
+  res.sendFile(path.join(__dirname, 'index.html'));
+  if (!input_url) {
+    return;
+  }
+  setTimeout(() => {
     handle_query(input_url);
   }, 2000);
-  });
+});
 
-  app.get('/movies_group', (req, res) => {
-    let input_url = req.query.url
-    console.log("input url: ", input_url)
-    res.statusCode = 200
-    res.setHeader("Content-Type", "text/html");
-    res.sendFile(path.join(__dirname, 'index.html'));
-    if (!input_url) {
-        return;
-    }
-    setTimeout(() => {
+app.get('/movies_group', (req, res) => {
+  let input_url = req.query.url
+  console.log("input url: ", input_url)
+  res.statusCode = 200
+  res.setHeader("Content-Type", "text/html");
+  res.sendFile(path.join(__dirname, 'index.html'));
+  if (!input_url) {
+    return;
+  }
+  setTimeout(() => {
     handle_query_group(input_url);
   }, 2000);
 });
 
 async function handle_query(input_url){
-    let movie_urls=[]
-    try {
-    const bindingsStream = await engine.queryBindings(` `, { //TODO: complete SPARQL query to get the URLs of the pages describing the movies from the container
-    sources: [input_url],
-  });
-  bindingsStream.on('data', (data) => {
+  let movie_urls=[]
+  try {
+    const bindingsStream = await engine.queryBindings(`
+        PREFIX ldp: <http://www.w3.org/ns/ldp#>
+        SELECT ?v WHERE {
+                   <${input_url}> ldp:contains ?v .
+    } `, {
+      sources: [input_url],
+    }); // SPARQL query to get the URLs of the pages describing the movies from the container
+    bindingsStream.on('data', (data) => {
       movie_urls.push(data.get('v').value);
     });
-  bindingsStream.on('error', (err) => {
+    bindingsStream.on('error', (err) => {
       console.error('An error occured:', err);
       return;
     });
-  bindingsStream.on('end', async () => {
-    if (movie_urls.length === 0) {
-      console.log('[/movies] no movies found in this container');
-    return;
-  }
-    engine.queryBindings(``, { //TODO: complete SPARQL query to get the name and the URL for the image a page describing a movie on the pod.
-    sources: movie_urls,
-  }).then(function (moviesStream) {
-    moviesStream.on('data', function (data) {
+    bindingsStream.on('end', async () => {
+      if (movie_urls.length === 0) {
+        console.log('[/movies] no movies found in this container');
+        return;
+      }
+      engine.queryBindings(`
+              PREFIX schema: <https://schema.org/>
+              SELECT ?name ?image WHERE {
+                ?movie schema:name ?name ;
+                       schema:image ?image .
+              }
+    `, { sources: movie_urls, // SPARQL query to get the name and the URL for the image a page describing a movie on the pod.
+      }).then(function (moviesStream) {
+        moviesStream.on('data', function (data) {
           let obj = {
             "name": data.get('name').value,
             "image": data.get('image').value
@@ -92,11 +101,11 @@ async function handle_query(input_url){
         console.error('[/movies] queryBindings (movie details) failed:', err);
       });
     });
-    }
+  }
   catch (err) {
-      console.error('[/movies] queryBindings (container) failed:', err);
-      return;
-    }
+    console.error('[/movies] queryBindings (container) failed:', err);
+    return;
+  }
 }
 
 async function handle_query_group(input_url) {
@@ -105,7 +114,11 @@ async function handle_query_group(input_url) {
   let movie_containers = [];
   let movie_urls = [];
 
-  engine.queryBindings(``, { //TODO: complete SPARQL query to get the members of a group from a group profile. 
+  engine.queryBindings(`
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+      SELECT ?m WHERE {
+        ?group <http://xmlns.com/foaf/0.1/member> ?m .
+  }`, { //SPARQL query to get the members of a group from a group profile.
     sources: [input_url],
   }).then(function (bindingsStream) {
 
@@ -128,7 +141,11 @@ async function handle_query_group(input_url) {
       console.log("group members urls: ", member_urls);
 
 
-      engine.queryBindings(``, { //TODO: complete SPARQL query to get the movie container from a profile. 
+      engine.queryBindings(`
+            PREFIX ex: <https://example.org/>
+            SELECT ?movieContainer WHERE {
+            ?member ex:hasMovieContainer ?movieContainer .
+      }`, { // SPARQL query to get the movie container from a profile.
         sources: member_urls,
       }).then(function (memberStream) {
 
@@ -150,7 +167,12 @@ async function handle_query_group(input_url) {
           console.log("movie containers: ", movie_containers);
 
 
-          engine.queryBindings(``, { //TODO: complete SPARQL query to get the URLs of the pages describing the movies from the container
+          engine.queryBindings(`
+                        PREFIX ldp: <http://www.w3.org/ns/ldp#>
+                        SELECT ?v WHERE {
+                          ?container ldp:contains ?v .                        
+                        }
+          `, { // SPARQL query to get the URLs of the pages describing the movies from the container
             sources: movie_containers,
           }).then(function (containerStream) {
 
@@ -168,7 +190,13 @@ async function handle_query_group(input_url) {
                 return;
               }
 
-              engine.queryBindings(``, { //TODO: complete SPARQL query to get the name and the URL for the image a page describing a movie on the pod.
+              engine.queryBindings(`
+                           PREFIX schema: <https://schema.org/>
+                           SELECT ?name ?image WHERE {
+                                                ?movie schema:name ?name ;
+                                                schema:image ?image .
+                  }
+                `, { // SPARQL query to get the name and the URL for the image a page describing a movie on the pod.
                 sources: movie_urls,
               }).then(function (movieStream) {
 
@@ -206,9 +234,9 @@ async function handle_query_group(input_url) {
 }
 
 
-  
-  
-  
+
+
+
 httpServer.listen(port, () => {
   console.log("Server is running... on " + port);
 });

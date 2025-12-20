@@ -33,6 +33,9 @@ Ans:
 
 1. Create a SPARQL query to retrieve the URI of the group to which you belong from your FOAF profile. Provide the query in the [`query_group.rq`](query_group.rq) file. 
 
+**Response:** [
+{"group":"https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/bcs-ds-2025-group-11"}
+]
 
 2. Query the names of all the people in your distributed social graph (i.e., people you know directly or indirectly) using your profile as an entry point. To do this, you will need to write a navigational query (see lecture slides) and use link traversal (using the command comunica-sparql-link-traversal). Try running the query without link traversal as well and see what happens. Provide the query in the [`query_friends.rq`](query_friends.rq) file (see project README) and explain the results.
 
@@ -81,3 +84,6 @@ Ans: We only partly agree, as a Solid pod contains multiple knowledge graphs, be
 Ans:  Decoupling applications from data in Solid means that applications no longer store or own user data themselves, but instead, users keep their data in their own Solid pods and grant applications permission to access it. This allows users to change or stop using an application without losing their data, since the data remains independent of any specific app. Technically, this leads to more interoperable systems where multiple applications can work on the same data using standard Web technologies (e.g. RDF/HTTP), while access control and identity management become central aspects of the architecture. It also results ina more distributed system design, where data is no longer centralized in a single backend. From a societal perspective, this approach strengthens user data sovereignty and privacy, reduces lock-in to certain vendors or platforms, and shifts control away from large platforms toward users which potentially enables fairer competition and more transparent data usage practices, as the platforms would need to provide more value than just having the highest amount of data and information about you and your knowledge, friends, etc.
 
 
+# Declaration of Support
+
+We have used ChatGPT 5.0 to help us understand some errors when first developing the app.js program. More specifically, we used it to help us debug some exception messages so we could identify where the error happpened faster.

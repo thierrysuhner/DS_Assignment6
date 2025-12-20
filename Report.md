@@ -15,8 +15,12 @@ https://github.com/thierrysuhner/DS_Assignment6
 1. Indicate WebIDs of the group members and the files corresponding to the profiles of the group members.
 
 Ans: 
-* Thierry Suhner: https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me
-* Karla Ruggaber: https://wiser-solid-xi.interactions.ics.unisg.ch/kruggaber/profile/card#me
+* Thierry Suhner: 
+  * URL: https://wiser-solid-xi.interactions.ics.unisg.ch/tsuhner/profile/card#me
+  * File: [tsuhner_profile.ttl](profiles/tsuhner_profile.ttl)
+* Karla Ruggaber: 
+  * URL: https://wiser-solid-xi.interactions.ics.unisg.ch/kruggaber/profile/card#me
+  * File: [kruggaber_profile.ttl](profiles/kruggaber_profile.ttl)
 
 2. Indicate the URL of group profile and the file that contains the group profile.
 

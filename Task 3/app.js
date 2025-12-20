@@ -117,7 +117,7 @@ async function handle_query_group(input_url) {
   engine.queryBindings(`
       PREFIX foaf: <http://xmlns.com/foaf/0.1/>
       SELECT ?m WHERE {
-        ?group <http://xmlns.com/foaf/0.1/member> ?m .
+        ?group foaf:member ?m .
   }`, { //SPARQL query to get the members of a group from a group profile.
     sources: [input_url],
   }).then(function (bindingsStream) {
@@ -194,7 +194,7 @@ async function handle_query_group(input_url) {
                            PREFIX schema: <https://schema.org/>
                            SELECT ?name ?image WHERE {
                                                 ?movie schema:name ?name ;
-                                                schema:image ?image .
+                                                       schema:image ?image .
                   }
                 `, { // SPARQL query to get the name and the URL for the image a page describing a movie on the pod.
                 sources: movie_urls,
